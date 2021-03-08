@@ -1,0 +1,21 @@
+ 
+<h1 align=center>T3A13-functions-sawyer.html </h1>
+<h3> Verison number 0.0.2 </h3>
+
+<script>
+function myBasicFun(){
+    document.getElementById('mySpan01').innerHtml = "wow"
+}
+function myAdvancedFun(x,y){
+      return x*y
+}
+</script>
+<input id="myText01" type=text value=4+2 ><br><br>
+<input type=button value="Run function" onclick="{
+   //alert('button works')
+   myBasicFun()
+}"><br><br>
+<input type=button value="Advanced" onclick="{
+      document.getElementById('mySpan01').innerHTML = myAdvancedFun(3,2)
+}"><br><br>
+<span id="mySpan01" >...</Span><br><br>
