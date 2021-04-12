@@ -1,0 +1,19 @@
+Version : 0.0.1 <br>
+<h1 align=center>T3A15-arrays-name.html</h1>
+
+<input type=button value="make and show array" onclick="{
+    document.myArray = new Array ()
+    document.myArray[0] = 7;
+    document.myArray[1] = 3;
+    document.myArray[2] = 8;
+ 
+    document.getElementById('mySpan01').innerHTML = '[1] value is: ' +document.mayArray[1]
+}"><br><br>
+
+<input type=button value="Loop Through Array" onclick="{
+    myTemp = ''
+    for (i=0;  i<3; i++){
+    myTemp+= 'document.myArray[' + i + '] is: '+ document.myArray[i] + '<br>'
+}"><br><br>
+
+<span id="mySpan01" >...</Span><br><br>
