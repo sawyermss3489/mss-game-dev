@@ -1,0 +1,39 @@
+<h1 align=center>T3A12-Decisions-if-sawyer.html</h1>
+
+<pre>
+|| means OR
+&& means AND
+! means NOT
+</pre>
+<input id="myText01" type=text value=178 ><br><br>
+<input type=button values="Show X" onclick="{ 
+     x = document.getElementById('myText01').value 
+     myTemp = '.................'
+     if (x >= 2){myTemp = '178'}
+     document.getElementById('mySpan01').innerHTML = myTemp
+
+}"><br><br>
+<span id="mySpan01">...</span>
+
+
+
+
+
+
+
+
+<input id="myText02a" type=text value=3 >
+<input id="myText02b" type=text value=-7 ><br>
+<input type=button value="decide x and y" onclick="{ 
+ myX = document.getElementById('myText02a').value
+ myY = document.getElementById('myText02b').value
+    myTemp = '.............'
+    if (myX > 2 && myY < -4){
+        myTemp = 'x greater than 2 and y less than -4
+    } else {
+       myTemp = 'not'
+    }
+    document.getElementById('mySpan02').innerHTML = myTemp
+
+}"><br>
+<spanid="mySpan02">...</span><br><br>
