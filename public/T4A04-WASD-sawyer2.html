@@ -1,0 +1,100 @@
+<html>
+<head>
+
+<script>
+function myHitOther(my1,my2){
+   left1   = parseInt(document.getElementById(my1).style.left)
+   right1  = left1 + parseInt(document.getElementById(my1).style.width)
+   top1    = parseInt(document.getElementById(my1).style.top)   
+   bottom1 = top1   + parseInt(document.getElementById(my1).style.height)
+   left2   = parseInt(document.getElementById(my2).style.left)
+   right2  = left2 + parseInt(document.getElementById(my2).style.width)
+   top2    = parseInt(document.getElementById(my2).style.top)   
+   bottom2 = top2   + parseInt(document.getElementById(my2).style.height)
+   if ((right1  >=  left2  ) &&      	   
+       (bottom1 >=  top2   ) &&
+       (left1   <=  right2 ) &&
+       (top1    <=  bottom2) ){
+       return true
+   }
+}
+
+
+function myCheckAll(){
+  if(myHitOther('mySpan01', 'mySpan02')){
+    document.getElementById('mySpan02').style.left = '-400px'
+    alert('You Win!')
+    location = 'https://google.ca'
+  }
+
+  if(myHitOther('mySpan01', 'mySpan03')){
+    document.getElementById('mySpan03').style.left = '-400px'
+  }
+
+  // your other checks go here
+
+}
+
+
+</script>
+</head>
+
+
+<body  onKeyDown="{
+     let myAlphaKey = event.key
+     document.getElementById('myDiv01').innerHTML = 'You typed: ' + myAlphaKey.toLowerCase()
+
+
+      if (myAlphaKey.toLowerCase() == 'arrowright') {
+         document.getElementById('mySpan01').style.left = parseInt(document.getElementById('mySpan01').style.left) + 10
+         myCheckAll()
+     }
+
+      if (myAlphaKey.toLowerCase() == 'd') {   // go right
+         document.getElementById('mySpan01').style.left = parseInt(document.getElementById('mySpan01').style.left) + 10
+         myCheckAll()
+      }
+}">
+
+
+<h1 align=center>T4A04-WASD-sawyer.html</h1>
+
+
+<input type=button value="Move 10 pixels right" onClick="{
+                        
+  document.getElementById('mySpan01').style.left = parseInt(document.getElementById('mySpan01').style.left) + 10
+  myCheckAll()
+                        
+}">
+
+
+<input type=button value="Move 10 pixels Diagonal" onClick="{
+                        
+  document.getElementById('mySpan01').style.left = parseInt(document.getElementById('mySpan01').style.left) + 10
+  document.getElementById('mySpan01').style.top  = parseInt(document.getElementById('mySpan01').style.top)  - 10
+  myCheckAll()
+                        
+}">
+
+
+
+
+<div id="myDiv01">...</div>
+
+
+<span id="mySpan01" style="position:absolute; left:100; top:150; width:45; height:30">
+   Span 1 </span><br>
+<span id="mySpan02" style="position:absolute; left:400; top:150; width:45; height:30"> 
+   Span 2 </span><br>
+<span id="mySpan03" style="position:absolute; left:200; top:150; width:45; height:30"> 
+   Span 3 </span><br>
+
+
+
+
+
+</body>
+</html>
+
+
+​
