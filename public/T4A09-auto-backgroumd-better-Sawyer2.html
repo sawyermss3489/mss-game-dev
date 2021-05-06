@@ -1,0 +1,93 @@
+<body id="myBody" style="background-repeat:repeat; background-size: 80%" background="myBackground01.jpg">
+
+
+
+<script>
+
+   // global variables here
+   let myGlobalX = 0
+   let myClock
+
+
+
+function myHitOther(my1,my2){
+   left1   = parseInt(document.getElementById(my1).style.left)
+   right1  = left1 + parseInt(document.getElementById(my1).style.width)
+   top1    = parseInt(document.getElementById(my1).style.top)   
+   bottom1 = top1   + parseInt(document.getElementById(my1).style.height)
+   left2   = parseInt(document.getElementById(my2).style.left)
+   right2  = left2 + parseInt(document.getElementById(my2).style.width)
+   top2    = parseInt(document.getElementById(my2).style.top)   
+   bottom2 = top2   + parseInt(document.getElementById(my2).style.height)
+   if ((right1  >=  left2  ) &&      	   
+       (bottom1 >=  top2   ) &&
+       (left1   <=  right2 ) &&
+       (top1    <=  bottom2) ){
+       return true
+   }
+}
+
+
+function myCheckAll(){
+  if(myHitOther('mySpan01', 'mySpan02')){
+    document.getElementById('mySpan02').style.left = '-400px'
+    alert('You Win!')
+    location = 'https://google.ca'
+  }
+
+  if(myHitOther('mySpan01', 'mySpan03')){
+    document.getElementById('mySpan03').style.left = '-400px'
+  }
+
+  // your other checks go here
+
+}
+
+
+
+
+</script>
+
+
+
+
+
+
+<h1 align=center style="color:yellow;">T4A09-auto-background-better-name.html</h1>
+
+
+<input type=button value="Move 10 pixels right" onClick="{
+  
+                    
+  document.getElementById('mySpan01').style.left = parseInt(document.getElementById('mySpan01').style.left) + 10
+  myCheckAll()
+                        
+}">
+
+
+<input type=button value="Auto Background Left" onclick="{
+  clearInterval(myClock)
+  let myTemp = '100px 0px'
+  myClock = setInterval(function(){
+      myGlobalX += 5
+      myTemp =  '100px ' + myGlobalX + 'px'       //  myGlobalX + 'px ' + '100px' 
+      document.getElementById('myBody').style.backgroundPosition = myTemp
+  }, 100)
+    
+}">
+
+
+
+
+<span id="mySpan01" style=" color:yellow; position:absolute; left:100; top:150; width:45; height:30">
+   Span 1 </span><br>
+
+<span id="mySpan02" style=" color:yellow; position:absolute; left:400; top:150; width:45; height:30"> 
+   Span 2 </span><br>
+
+<span id="mySpan03" style="  color:yellow; position:absolute; left:200; top:150; width:45; height:30"> 
+   Span 3 </span><br>
+
+
+
+</body>
