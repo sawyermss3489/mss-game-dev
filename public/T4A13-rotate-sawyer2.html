@@ -1,0 +1,112 @@
+<script>
+
+// Global variables works anywhere in your code
+
+document.myXmove = 5   // amount it moves in pixels
+document.myYmove = 7
+
+document.myXspeed = 50 // speed as a delay in milliseconds bigger is slower
+document.myYspeed = 20 
+
+document.myXtimer = 0;
+document.myYtimer = 0;
+
+
+document.myRotate = 0;
+
+
+
+function myHitOther(my1,my2){
+   left1   = parseInt(document.getElementById(my1).style.left)
+   right1  = left1 + parseInt(document.getElementById(my1).style.width)
+   top1    = parseInt(document.getElementById(my1).style.top)   
+   bottom1 = top1   + parseInt(document.getElementById(my1).style.height)
+   left2   = parseInt(document.getElementById(my2).style.left)
+   right2  = left2 + parseInt(document.getElementById(my2).style.width)
+   top2    = parseInt(document.getElementById(my2).style.top)   
+   bottom2 = top2   + parseInt(document.getElementById(my2).style.height)
+   if ((right1  >=  left2  ) &&      	   
+       (bottom1 >=  top2   ) &&
+       (left1   <=  right2 ) &&
+       (top1    <=  bottom2) ){
+       return true
+   }
+}
+
+
+function myCheckAll(){
+
+// Bounce of windoow walls
+
+if (parseInt(document.getElementById('mySpan01').style.left) < 3) {  // if we hit the left wall
+    document.myXmove = document.myXmove * -1   // then bounce
+}
+
+if (parseInt(document.getElementById('mySpan01').style.left)  > window.innerWidth - parseInt(document.getElementById('mySpan01').style.width ) ) {  // if we hit the right wall
+    document.myXmove = document.myXmove * -1   // then bounce
+}
+
+
+// end of bounce code
+
+  if(myHitOther('mySpan01', 'mySpan02')){
+    document.getElementById('mySpan02').style.left = '-400px'
+    // lets try a bounce
+    document.myXmove = document.myXmove * -1
+  }
+
+
+
+  if(myHitOther('mySpan01', 'mySpan03')){
+    document.getElementById('mySpan03').style.left = '-400px'
+    alert('You Win!')
+    location = 'https://google.ca'
+  }
+
+  // your other checks go here
+
+}
+
+
+function myXAuto(){
+  document.myRotate += 20
+
+  document.getElementById('mySpan01').style.left = parseInt(document.getElementById('mySpan01').style.left) + document.myXmove
+
+  document.getElementById('mySpan01').style.transform = 'rotate('+  document.myRotate  +'deg)'
+//transform: rotate(50deg);
+
+  myCheckAll()
+}
+
+
+
+</script>
+
+
+
+
+
+<body style="background-color: #C0C0C0;">
+<h1 style="color:#cc0000;"align=center>T4A13-rotate-name.html</h1><br>
+
+
+<input type=button value="Start the spin" onClick="{
+    clearInterval(document.myXtimer)                    
+    document.myXtimer = setInterval( myXAuto , document.myXspeed);
+                        
+}">
+
+<input type=button value="window width" onClick="{
+  alert(window.innerWidth)
+                        
+}">
+
+
+
+<span id="mySpan01" style="position:absolute; left:100; top:150; width:50; height:50; transform: rotate(0deg); border-color:blue; border-style:solid; border-width:2;">
+Span 1</span><br>
+<span id="mySpan02" style="position:absolute; left:300; top:150; width:45; height:30"> 
+Span 2 </span><br>
+<span id="mySpan03" style="position:absolute; left:700; top:150; width:45; height:30"> 
+Span 3 </span><br>​
