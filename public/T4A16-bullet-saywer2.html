@@ -1,0 +1,137 @@
+<script>
+
+// Global variables works anywhere in your code
+
+document.myNumBullets = 1;
+document.myBulletMax  = 4;
+
+
+document.myBulletMove = 7   // amount it moves in pixels
+
+document.myBulletDelay = 20 // speed as a delay in milliseconds bigger is slower
+
+document.myBulleTimer = 0;
+
+
+
+// span movement
+
+document.myXmove = 5   // amount it moves in pixels
+
+
+
+function myHitOther(my1,my2){
+   left1   = parseInt(document.getElementById(my1).style.left)
+   right1  = left1 + parseInt(document.getElementById(my1).style.width)
+   top1    = parseInt(document.getElementById(my1).style.top)   
+   bottom1 = top1   + parseInt(document.getElementById(my1).style.height)
+   left2   = parseInt(document.getElementById(my2).style.left)
+   right2  = left2 + parseInt(document.getElementById(my2).style.width)
+   top2    = parseInt(document.getElementById(my2).style.top)   
+   bottom2 = top2   + parseInt(document.getElementById(my2).style.height)
+   if ((right1  >=  left2  ) &&      	   
+       (bottom1 >=  top2   ) &&
+       (left1   <=  right2 ) &&
+       (top1    <=  bottom2) ){
+       return true
+   }
+}
+
+
+function myCheckAll(){
+
+for (let x=1;  x <= document.myBulletMax; x++){ 
+   if (parseInt(document.getElementById('myBullet'+x).style.left) + 65 > window.innerWidth) {  // if we hit the right wall
+       document.getElementById('myBullet'+x).style.left = document.getElementById('mySpan01').style.left
+       document.getElementById('myBullet'+x).style.visibility= 'hidden'
+    }
+
+
+   if (myHitOther('myBullet'+x, 'mySpan02')){
+      document.getElementById('mySpan02').style.left = '-400px'
+   }
+
+}   // check all bullets finished
+
+  if(myHitOther('mySpan01', 'mySpan02')){
+    document.getElementById('mySpan02').style.left = '-400px'
+    alert('You Lose!')
+    location = 'T4A16-bullet-name.html'
+  }
+
+
+  if(myHitOther('mySpan01', 'mySpan03')){
+    document.getElementById('mySpan03').style.left = '-400px'
+    alert('You Win!')
+    location = 'https://google.ca'
+  }
+
+  // your other checks go here
+
+}
+
+
+function myBulletFire(){
+
+  for (let x=1;  x <= document.myBulletMax; x++){
+     document.getElementById('myBullet'+x).style.left = parseInt(document.getElementById('myBullet'+x).style.left) + document.myBulletMove
+  }
+
+  myCheckAll()
+}
+
+</script>
+
+
+
+<h1 align=center>T4A16-bullet-sawyer.html</h1>
+
+
+<input type=button value="Fire" onClick="{
+    document.myNumBullets += 1
+    if (document.myNumBullets > document.myBulletMax){
+       document.myNumBullets = 1
+    }
+
+    document.getElementById('myBullet' + document.myNumBullets).style.left = document.getElementById('mySpan01').style.left
+    document.getElementById('myBullet' + document.myNumBullets).style.visibility= 'visible'
+
+    clearInterval(document.myBulletTimer)                    
+    document.myBulletTimer = setInterval( myBulletFire , document.myBulletDelay);
+                        
+}">
+
+<input type=button value="right" onClick="{
+  document.getElementById('mySpan01').style.left = parseInt(document.getElementById('mySpan01').style.left) + document.myXmove
+
+  myCheckAll()
+                        
+}">
+
+
+
+<span title="1" id="mySpan01" style="position:absolute; left:100; top:150; width:45; height:30">
+   Span 1 </span><br>
+<span title="2"  id="mySpan02" style="position:absolute; left:300; top:150; width:45; height:30"> 
+   Span 2 </span><br>
+<span title="3"  id="mySpan03" style="position:absolute; left:700; top:250; width:45; height:30"> 
+   Span 3 </span><br>
+
+
+
+<span title="b1" id="myBullet1" style="visibility:hidden; position:absolute; left:100; top:150; width:45; height:30">
+<font color=red>x</font></span><br>
+
+<span title="b2" id="myBullet2" style="visibility:hidden; position:absolute; left:100; top:150; width:45; height:30">
+<font color=green>x</font></span><br>
+
+<span title="b3" id="myBullet3" style="visibility:hidden; position:absolute; left:100; top:150; width:45; height:30">
+<font color=yellow>x</font></span><br>
+
+<span title="b4" id="myBullet4" style="visibility:hidden; position:absolute; left:100; top:150; width:45; height:30">
+<font color=blue>x</font></span><br>
+
+
+
+
+​
