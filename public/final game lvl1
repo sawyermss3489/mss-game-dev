@@ -1,95 +1,107 @@
-<canvas id="GameBoardCanvas" width="400px" height="400px">
-</canvas>#GameBoardCanvas {
-    border: 1px solid red;
-    padding: 5px;
-    margin-left: auto;
-    margin-right: auto;
+var canvas = document.getElementById("mazecanvas");
+var context = canvas.getContext("2d");
+var currRectX = 425;
+var currRectY = 3;
+var mazeWidth = 556;
+var mazeHeight = 556;
+var intervalVar;
+function drawMazeAndRectangle(rectX, rectY) {
+    makeWhite(0, 0, canvas.width, canvas.height);
+    var mazeImg = new Image();
+    mazeImg.onload = function () { // when the image is loaded, draw the image, the rectangle and the circle
+        context.drawImage(mazeImg, 0, 0);
+        drawRectangle(rectX, rectY, "#0000FF", false, true);
+        context.beginPath();
+        context.arc(542, 122, 7, 0, 2 * Math.PI, false);
+        context.closePath();
+        context.fillStyle = '#00FF00';
+        context.fill();
+    };
+    mazeImg.src = "maze.gif";
 }
-
-body {
-    background: black;
-    padding: 5px;
+function drawRectangle(x, y, style) {
+    makeWhite(currRectX, currRectY, 15, 15);
+    currRectX = x;
+    currRectY = y;
+    context.beginPath();
+    context.rect(x, y, 15, 15);
+    context.closePath();
+    context.fillStyle = style;
+    context.fill();
 }
-var canvas = $('#GameBoardCanvas');
-//The game board 1 = walls, 0 = free space, and -1 = the goal
-var board = [
-    [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
-    [ 1, 0, 1, 0, 0, 0, 0, 0, 1, 0],
-    [ 0, 0, 0, 0, 1, 1, 1, 0, 1, 0],
-    [ 0, 1, 1, 0, 0, 0, 1, 0, 1, 0],
-    [ 0, 0, 1, 1, 1, 1, 1, 0, 1, 0],
-    [ 1, 0, 1, 0, 0, 0, 1, 0, 1, 0],
-    [ 1, 0, 1, 0, 1, 0, 1, 0, 0, 0],
-    [ 1, 0, 1, 0, 1, 0, 0, 1, 1, 0],
-    [-1, 0, 1, 0, 1, 1, 0, 0, 0, 0]
-];
-var player = {
-    x: 0,
-    y: 0
-};
-
-//Draw the game board
-function draw(){
-    var width = canvas.width();
-    var blockSize = width/board.length;
-    var ctx = canvas[0].getContext('2d');
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0, 0, width, width);
-    ctx.fillStyle="white";
-    //Loop through the board array drawing the walls and the goal
-    for(var y = 0; y < board.length; y++){
-        for(var x = 0; x < board[y].length; x++){
-            //Draw a wall
-            if(board[y][x] === 1){
-                ctx.fillRect(x*blockSize, y*blockSize, blockSize, blockSize);
+function makeWhite(x, y, w, h) {
+    context.beginPath();
+    context.rect(x, y, w, h);
+    context.closePath();
+    context.fillStyle = "white";
+    context.fill();
+}
+function moveRect(e) {
+    var newX;
+    var newY;
+    var canMove;
+    e = e || window.event;
+    switch (e.keyCode) {
+        case 38:   // arrow up key
+        case 87: // W key
+            newX = currRectX;
+            newY = currRectY - 3;
+            break;
+        case 37: // arrow left key
+        case 65: // A key
+            newX = currRectX - 3;
+            newY = currRectY;
+            break;
+        case 40: // arrow down key
+        case 83: // S key
+            newX = currRectX;
+            newY = currRectY + 3;
+            break;
+        case 39: // arrow right key
+        case 68: // D key
+            newX = currRectX + 3;
+            newY = currRectY;
+            break;
+        default: return;
+    }
+    movingAllowed = canMoveTo(newX, newY);
+    if (movingAllowed === 1) {      // 1 means 'the rectangle can move'
+        drawRectangle(newX, newY, "#0000FF");
+        currRectX = newX;
+        currRectY = newY;
+    }
+    else if (movingAllowed === 2) { // 2 means 'the rectangle reached the end point'
+        clearInterval(intervalVar); // we'll set the timer later in this article
+        makeWhite(0, 0, canvas.width, canvas.height);
+        context.font = "40px Arial";
+        context.fillStyle = "blue";
+        context.textAlign = "center";
+        context.textBaseline = "middle";
+        context.fillText("Congratulations!", canvas.width / 2, canvas.height / 2);
+        window.removeEventListener("keydown", moveRect, true);
+    }
+}
+function canMoveTo(destX, destY) {
+    var imgData = context.getImageData(destX, destY, 15, 15);
+    var data = imgData.data;
+    var canMove = 1; // 1 means: the rectangle can move
+    if (destX >= 0 && destX <= mazeWidth - 15 && destY >= 0 && destY <= mazeHeight - 15) { // check whether the rectangle would move inside the bounds of the canvas
+        for (var i = 0; i < 4 * 15 * 15; i += 4) { // look at all pixels
+            if (data[i] === 0 && data[i + 1] === 0 && data[i + 2] === 0) { // black
+                canMove = 0; // 0 means: the rectangle can't move
+                break;
             }
-            //Draw the goal
-            else if(board[y][x] === -1){
-                ctx.beginPath();
-                ctx.lineWidth = 5;
-                ctx.strokeStyle = "gold";
-                ctx.moveTo(x*blockSize, y*blockSize);
-                ctx.lineTo((x+1)*blockSize, (y+1)*blockSize);
-                ctx.moveTo(x*blockSize, (y+1)*blockSize);
-                ctx.lineTo((x+1)*blockSize, y*blockSize);
-                ctx.stroke();
+            else if (data[i] === 0 && data[i + 1] === 255 && data[i + 2] === 0) { // lime: #00FF00
+                canMove = 2; // 2 means: the end point is reached
+                break;
             }
         }
     }
-    //Draw the player
-    ctx.beginPath();
-    var half = blockSize/2;
-    ctx.fillStyle = "blue";
-    ctx.arc(player.x*blockSize+half, player.y*blockSize+half, half, 0, 2*Math.PI);
-    ctx.fill();
+    else {
+        canMove = 0;
+    }
+    return canMove;
 }
 
-//Check to see if the new space is inside the board and not a wall
-function canMove(x, y){
-    return (y>=0) && (y<board.length) && (x >= 0) && (x < board[y].length) && (board[y][x] != 1);
-}
-
-$(document).keyup(function(e){
-    if((e.which == 38) && canMove(player.x, player.y-1))//Up arrow
-        player.y--;
-    else if((e.which == 40) && canMove(player.x, player.y+1)) // down arrow
-        player.y++;
-    else if((e.which == 37) && canMove(player.x-1, player.y))
-        player.x--;
-    else if((e.which == 39) && canMove(player.x+1, player.y))
-        player.x++;
-    draw();
-    e.preventDefault();
-});
-
-draw();
-
-
-
-
-
-
-
-
-
+window.addEventListener("keydown", moveRect, true);
+drawMazeAndRectangle(425, 3);
