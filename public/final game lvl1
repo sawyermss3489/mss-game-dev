@@ -1,9 +1,5 @@
 <canvas id="GameBoardCanvas" width="400px" height="400px">
-</canvas>
-
-
-
-#GameBoardCanvas {
+</canvas>#GameBoardCanvas {
     border: 1px solid red;
     padding: 5px;
     margin-left: auto;
@@ -14,10 +10,6 @@ body {
     background: black;
     padding: 5px;
 }
-
-
-
-
 var canvas = $('#GameBoardCanvas');
 //The game board 1 = walls, 0 = free space, and -1 = the goal
 var board = [
@@ -92,3 +84,12 @@ $(document).keyup(function(e){
 });
 
 draw();
+
+
+
+
+
+
+
+
+
