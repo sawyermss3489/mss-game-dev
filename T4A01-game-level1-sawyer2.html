@@ -1,6 +1,35 @@
 
 
+
+
+<body onmousedown="{
+   
+  document.myGravity = -15
+  setTimeout(function(){ document.myGravity = 5 }, 100); 
+  myCheckAll()  
+
+}">
+
+
+
 <script>
+
+// Global variables works anywhere in your code
+
+
+document.myGravity = 5
+
+document.myXmove = -5   // amount it moves in pixels
+document.myYmove = 4
+
+document.myXspeed = 50 // speed as a delay in milliseconds bigger is slower
+document.myYspeed = 20 
+
+document.myXtimer = 0;
+document.myYtimer = 0;
+document.myTimer2 = 0;
+
+
 function myHitOther(my1,my2){
    left1   = parseInt(document.getElementById(my1).style.left)
    right1  = left1 + parseInt(document.getElementById(my1).style.width)
@@ -18,34 +47,116 @@ function myHitOther(my1,my2){
    }
 }
 
+
+function myCheckAll(){
+
+
+if (parseInt(document.getElementById('mySpan01').style.top) -5  > window.innerHeight) { 
+    document.getElementById('mySpan01').style.top = '100px' 
+    alert('You Lose!')
+    location = 'T4A17-flappy-bird-name.html'
+}
+
+
+  if(myHitOther('mySpan01', 'mySpan02')){
+    document.getElementById('mySpan02').style.left = '-400px'
+    alert('You Lose!')
+    location = 'T4A17-flappy-bird-name.html'
+  }
+
+  if(myHitOther('mySpan01', 'mySpan03')){
+    document.getElementById('mySpan03').style.left = '-400px'
+    alert('You Lose!')
+    location = 'T4A17-flappy-bird-name.html'
+  }
+
+  if(myHitOther('mySpan01', 'mySpan04')){
+    document.getElementById('mySpan04').style.left = '-400px'
+    alert('You Lose!')
+    location = 'T4A17-flappy-bird-name.html'
+  }
+
+
+
+  if(myHitOther('mySpan01', 'mySpan05')){
+    document.getElementById('mySpan05').style.left = '-400px'
+    alert('You lose!')
+    location = 'https://google.ca'
+  }
+
+
+ if(myHitOther('mySpan01', 'mySpan06')){
+    document.getElementById('mySpan06').style.left = '-400px'
+    alert('You lose!')
+    location = 'https://google.ca'
+  }
+
+
+ if(myHitOther('mySpan01', 'mySpan200')){
+    document.getElementById('mySpan03').style.left = '-400px'
+    alert('You Win!')
+    location = 'https://google.ca'
+  }
+
+  // your other checks go here
+
+}
+
+
+function myXAuto(){
+
+  document.getElementById('mySpan01').style.top = parseInt(document.getElementById('mySpan01').style.top) + document.myGravity
+
+  document.getElementById('mySpan02').style.left = parseInt(document.getElementById('mySpan02').style.left) + document.myXmove 
+ 
+  document.getElementById('mySpan03').style.left = parseInt(document.getElementById('mySpan03').style.left) + document.myXmove 
+
+  document.getElementById('mySpan04').style.left = parseInt(document.getElementById('mySpan04').style.left) + document.myXmove 
+ 
+  document.getElementById('mySpan05').style.left = parseInt(document.getElementById('mySpan05').style.left) + document.myXmove 
+ 
+  document.getElementById('mySpan06').style.left = parseInt(document.getElementById('mySpan06').style.left) + document.myXmove 
+ 
+  myCheckAll()
+}
+
+
+
+clearInterval(document.myXtimer)                    
+document.myXtimer = setInterval( myXAuto , document.myXspeed);
+
 </script>
 
 
 
 
 
-<h1 align=center>T3A01-code-Fred.html</h1>
+<h1 align=center>T4A17-flappy-bird-name.html</h1>
 
-What we are going to do is take CSS positioning and Forms button and make something that moves across the screen.<br>
 
-<input type=button value="Move 10 pixels right" onClick="{
-   //alert( parseInt(document.getElementById('mySpan01').style.left) ) 
-                          
-document.getElementById('mySpan01').style.left = 
-parseInt(document.getElementById('mySpan01').style.left) + 10
 
-if(myHitOther('mySpan01', 'mySpan02')){
-  // alert('hit')
-  document.getElementById('mySpan02').style.left = '-400px'
-
-}
-
+<!--
+<input type=button value="helper button" onClick="{
+  alert()
                         
 }">
-
-<span id="mySpan01" style="position:absolute; left:100; top:150; width:45; height:30"> span 1</span><br>
-<span id="mySpan02" style="position:absolute; left:200; top:150; width:45; height:30"> span 2</span><br>
+-->
 
 
+<span title="1" id="mySpan01" style="position:absolute; left:100; top:150; width:45; height:30">
+   Span 1 </span><br>
+<span title="2"  id="mySpan02" style="position:absolute; left:900; top:100; width:45; height:30"> 
+   Span 2 </span><br>
+<span title="3"  id="mySpan03" style="position:absolute; left:900; top:300; width:45; height:30"> 
+   Span 3 </span><br>
 
+<span title="4"  id="mySpan04" style="position:absolute; left:1100; top:150; width:45; height:30"> 
+   Span 3 </span><br>
 
+<span title="5"  id="mySpan05" style="position:absolute; left:800; top:150; width:45; height:30"> 
+   Span 4 </span><br>
+
+<span title="6"  id="mySpan06" style="position:absolute; left:700; top:150; width:45; height:30"> 
+   Span 5 </span><br>
+
+</body>​
